@@ -1,30 +1,49 @@
 from flask import Flask, render_template, request
 import time
 
+# If you have a CausalEngine or other business logic, import it here:
+# from causal_engine import CausalEngine
+# engine = CausalEngine()
+
 app = Flask(__name__)
 
+# Simple in-memory conversation history (for demo only).
 conversation_history = []
 
-@app.route("/")
-def home():
-    return render_template("index.html", history=conversation_history)
+@app.route('/', methods=['GET'])
+def index():
+    """
+    Render the chat input page.
+    """
+    return render_template('index.html')
 
-@app.route("/ask", methods=["POST"])
+@app.route('/ask', methods=['POST'])
 def ask():
-    user_input = request.form.get("user_input")
+    """
+    Handle user question, update history, compute response, and render results.
+    """
+    user_input = request.form.get('user_input', '').strip()
+    if not user_input:
+        return render_template('index.html', error='Please enter a question.')
 
-    try:
-        time.sleep(1.5)  # Simulated delay
-        ai_response = f"Here’s what I’ve worked out based on your question:\n\n\"{user_input}\""
-    except Exception as e:
-        ai_response = f"⚠️ Error: {str(e)}"
+    # Add to history
+    conversation_history.append({'role': 'user', 'text': user_input})
 
-    conversation_history.append({
-        "question": user_input,
-        "answer": ai_response
-    })
+    # TODO: Replace the following stub with your partner's AI/model invocation:
+    # Example: temp, causes = engine.compute_response(user_input)
+    # For demo purposes, we simulate:
+    time.sleep(1.5)  # simulate processing delay
+    temp = 0.5
+    causes = {
+        'Variable A': 0.85,
+        'Variable B': 0.78,
+        'Variable C': 0.72
+    }
 
-    return render_template("index.html", history=conversation_history)
+    # Add model response to history
+    conversation_history.append({'role': 'ai', 'text': f"Causal strengths: {causes}"})
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    return render_template('result1.html', temp=temp, causes=causes, history=conversation_history)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
