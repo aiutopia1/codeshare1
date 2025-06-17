@@ -1,91 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Aiutopia</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aiutopia Chat Demo</title>
   <style>
-    body {
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: #e0e0e0;
-      font-family: 'Inter', sans-serif;
-      padding-top: 60px;
-    }
-    .container {
-      max-width: 720px;
-      background-color: rgba(20, 30, 48, 0.9);
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.6);
-    }
-    .logo {
-      font-size: 2.2rem;
-      font-weight: 600;
-      color: #00e1ff;
-      margin-bottom: 24px;
-    }
-    textarea {
-      background-color: #1c2a39;
-      color: #e0e0e0;
-      border: 1px solid #444;
-    }
-    .btn-primary {
-      background-color: #00e1ff;
-      border: none;
-      color: #000;
-      font-weight: bold;
-    }
-    .btn-primary:hover {
-      background-color: #00b8cc;
-    }
-    .chat-box {
-      white-space: pre-wrap;
-      background-color: #101d2b;
-      padding: 1rem;
-      border: 1px solid #333;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      color: #dcdcdc;
-    }
-    #loading-spinner {
-      display: none;
-      margin-top: 1rem;
-    }
+    /* Basic styling for demo */
+    body { font-family: sans-serif; padding: 2rem; }
+    #spinner { display: none; }
   </style>
 </head>
 <body>
-  <div class="container text-center">
-    <div class="logo">🧠 Aiutopia</div>
-
-    <form method="POST" action="/ask" onsubmit="showSpinner()">
-      <div class="mb-3">
-        <textarea name="user_input" class="form-control" rows="4" placeholder="Ask your data-driven question..." required></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary w-100">Submit</button>
-    </form>
-
-    <div id="loading-spinner" class="spinner-border text-info mt-3" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-
-    <div class="mt-5 text-start">
-      {% for entry in history %}
-        <div class="chat-box">
-          <strong class="text-info">You asked:</strong>
-          <p>{{ entry.question }}</p>
-          <strong class="text-success">Aiutopia replied:</strong>
-          <p>{{ entry.answer }}</p>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
+  <h1>Ask Aiutopia</h1>
+  {% if error %}
+    <p style="color:red;">{{ error }}</p>
+  {% endif %}
+  <form method="post" action="/ask" id="ask-form">
+    <input type="text" name="user_input" id="user_input" placeholder="Enter your question here" required autofocus>
+    <button type="submit" id="submit-btn">Submit</button>
+    <span id="spinner">⏳ Processing...</span>
+  </form>
 
   <script>
-    function showSpinner() {
-      document.getElementById("loading-spinner").style.display = "inline-block";
-    }
+    // Disable button and show spinner on submit
+    document.getElementById('ask-form').addEventListener('submit', function() {
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('spinner').style.display = 'inline';
+    });
   </script>
 </body>
 </html>
