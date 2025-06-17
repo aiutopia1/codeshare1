@@ -1,0 +1,30 @@
+from flask import Flask, render_template, request
+import time
+
+app = Flask(__name__)
+
+conversation_history = []
+
+@app.route("/")
+def home():
+    return render_template("index.html", history=conversation_history)
+
+@app.route("/ask", methods=["POST"])
+def ask():
+    user_input = request.form.get("user_input")
+
+    try:
+        time.sleep(1.5)  # Simulated delay
+        ai_response = f"Here’s what I’ve worked out based on your question:\n\n\"{user_input}\""
+    except Exception as e:
+        ai_response = f"⚠️ Error: {str(e)}"
+
+    conversation_history.append({
+        "question": user_input,
+        "answer": ai_response
+    })
+
+    return render_template("index.html", history=conversation_history)
+
+if __name__ == "__main__":
+    app.run(debug=True)
