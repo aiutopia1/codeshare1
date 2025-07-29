@@ -1,0 +1,87 @@
+# Aiutopia Money Engine — Reference & How-To
+
+**Repo:** https://github.com/aiutopia1/aiutopia-money-engine
+
+---
+
+## Overview
+
+Aiutopia Money Engine is an indestructible, modular backend system for profit, risk, and scenario simulation using both Bayesian and quantum algorithms.
+Built for business, government, and advanced AI research—engineered for real-world money making, saving, and causal discovery.
+
+---
+
+## Structure
+
+your-project/
+├── main.py
+├── requirements.txt
+└── engines/
+    ├── aiutopia_money_engine.py
+    └── money_advanced.py
+
+---
+
+## Quick Start
+
+1. Clone the repo:
+    ```
+    git clone https://github.com/aiutopia1/aiutopia-money-engine.git
+    cd aiutopia-money-engine
+    ```
+
+2. Install dependencies:
+    ```
+    pip install -r requirements.txt
+    ```
+
+3. Launch FastAPI server:
+    ```
+    uvicorn main:app --reload
+    ```
+
+---
+
+## API Endpoints
+
+- **POST `/money_model`**
+    - Predicts profit, risk, and causal “why” for any action/amount.
+- **POST `/quantum_money`**
+    - Runs 1,000+ Monte Carlo scenario sims with causal edge.
+
+---
+
+## Features
+
+- Modular, pluggable “engines” for future upgrades
+- Causal inference and quantum scenario modeling
+- Contrarian/defensive algorithms (finds what others miss)
+- Transparent outputs (risk, confidence bands, and explanations)
+- Ready for custom data, dashboard UI, or scale-up
+
+---
+
+## Recent Updates
+
+- July 2025: Repo launched with all engines and docs
+- Next: Adding dashboard UI, live data feeds, and GNN/portfolio features
+
+---
+
+## To-Do / Roadmap
+
+- Build frontend dashboard for live results
+- Integrate with real-world APIs/data feeds
+- Expand engine to portfolio and credit risk modeling
+- Add AI-powered feedback/learning loop
+
+---
+
+## Contact
+
+Anthony Harvey  
+GitHub: [aiutopia1](https://github.com/aiutopia1)
+
+---
+
+*For more detail, see main.py and engines/ directory in this repo. This file is updated regularly for all team members and partners.*
