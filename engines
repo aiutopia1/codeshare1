@@ -1,0 +1,60 @@
+"""
+aiutopia_money_engine.py
+
+Core engine for causal money simulation and profit prediction.
+Ready for extension with real business data and advanced models.
+"""
+
+import numpy as np
+
+class CausalMoneyEngine:
+    def __init__(self):
+        self.default_prior = {
+            "roi": 0.10,
+            "volatility": 0.15,
+        }
+
+    def predict(self, action: str, amount: float, context: dict = None):
+        prior = self.default_prior.copy()
+        if context and "prior_roi" in context:
+            prior["roi"] = context["prior_roi"]
+        if context and "prior_volatility" in context:
+            prior["volatility"] = context["prior_volatility"]
+
+        causal_factors = []
+        if action.lower() in ["launch ai product", "acquire competitor", "expand to new market"]:
+            prior["roi"] += 0.05
+            causal_factors.append("Causal boost: strategic expansion")
+
+        n_sim = 2000
+        roi_samples = np.random.normal(loc=prior["roi"], scale=prior["volatility"], size=n_sim)
+        profit_samples = roi_samples * amount
+
+        expected_profit = float(np.mean(profit_samples))
+        worst_case = float(np.percentile(profit_samples, 5))
+        best_case = float(np.percentile(profit_samples, 95))
+        prob_loss = float(np.mean(profit_samples < 0))
+
+        causal_factors.append(f"Base ROI: {prior['roi']:.2%}")
+        causal_factors.append(f"Risk (volatility): {prior['volatility']:.2%}")
+        if prob_loss > 0.4:
+            causal_factors.append("Warning: High risk of loss detected.")
+        if action.lower() == "expand to new market":
+            causal_factors.append("Note: Market expansion can amplify both risk and reward.")
+
+        return {
+            "action": action,
+            "amount": amount,
+            "expected_profit": expected_profit,
+            "profit_range": [worst_case, best_case],
+            "probability_of_loss": prob_loss,
+            "causal_path": causal_factors,
+            "simulation_runs": n_sim
+        }
+
+# For quick demo/testing
+if __name__ == "__main__":
+    engine = CausalMoneyEngine()
+    result = engine.predict("launch ai product", 100000)
+    from pprint import pprint
+    pprint(result)
