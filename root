@@ -1,0 +1,51 @@
+"""
+money_advanced.py
+
+Monte Carlo quantum money engine for scenario modeling and causal advantage.
+Plug into FastAPI or any backend controller.
+"""
+
+import numpy as np
+
+class QuantumMoneyEngine:
+    def __init__(self):
+        pass
+
+    def project(self, action: str, amount: float, industry: str = "general", volatility: float = 0.15):
+        n_simulations = 1000
+        base_roi = np.random.normal(loc=0.15, scale=volatility, size=n_simulations)
+        causal_boost = self.causal_boost(action, industry)
+        base_roi += causal_boost
+
+        profits = amount * base_roi
+        downside = np.percentile(profits, 5)
+        upside = np.percentile(profits, 95)
+        median_profit = np.median(profits)
+        prob_loss = np.mean(profits < 0)
+        expected_value = np.mean(profits)
+        contrarian_signal = 1 if causal_boost > 0.05 and prob_loss < 0.2 else 0
+
+        return {
+            "action": action,
+            "industry": industry,
+            "amount_invested": amount,
+            "expected_value": float(expected_value),
+            "median_profit": float(median_profit),
+            "5th_percentile": float(downside),
+            "95th_percentile": float(upside),
+            "probability_loss": float(prob_loss),
+            "contrarian_edge": bool(contrarian_signal),
+            "simulations": int(n_simulations),
+            "causal_boost": float(causal_boost)
+        }
+
+    def causal_boost(self, action: str, industry: str):
+        causal_map = {
+            ("launch ai product", "finance"): 0.09,
+            ("expand marketing", "retail"): 0.04,
+            ("acquire competitor", "tech"): 0.11,
+            ("launch new product", "healthtech"): 0.07
+        }
+        return causal_map.get((action.lower(), industry.lower()), 0.02)
+
+money_quantum_engine = QuantumMoneyEngine()
